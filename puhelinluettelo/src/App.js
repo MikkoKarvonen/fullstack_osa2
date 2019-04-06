@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '045-123456' }
-  ]) 
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Martti Tienari', number: '040-123456' },
+    { name: 'Arto Järvinen', number: '040-123456' },
+    { name: 'Lea Kutvonen', number: '040-123456' }
+  ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [newSearch, setNewSearch] = useState('')
 
-  const rows = () => persons.map((person,i) => <p key={i}>{person.name} {person.number}</p>)
+  const rows = () => persons.map((person,i) => (person.name.toLowerCase().includes(newSearch.toLowerCase())) ? <p key={i}>{person.name} {person.number}</p> : '')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -33,9 +37,17 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleSearchChange = (event) => {
+    setNewSearch(event.target.value)
+  }
+
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+      <div>
+        rajaa näytettäviä <input value={newSearch} onChange={handleSearchChange}/>
+      </div>
+      <h3>Lisää uusi</h3>
       <form  onSubmit={addPerson}>
         <div>
           nimi: <input value={newName}
