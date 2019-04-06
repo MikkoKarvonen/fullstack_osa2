@@ -10,10 +10,14 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const person = { name: newName}
-    const personsNew = [...persons]
-    personsNew.push(person)
-    setPersons(personsNew)
+    if (persons.some(e => e.name === newName)) {
+      alert(`${newName} on jo luettelossa.`);
+    } else {
+      const person = { name: newName}
+      const personsNew = [...persons]
+      personsNew.push(person)
+      setPersons(personsNew)
+    }
     setNewName('')
   }
 
