@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './App.css'
+import Weather from './components/Weather'
 
 const App = () => {
   const [countries, setCountries] = useState([])
@@ -50,9 +51,13 @@ const App = () => {
           {res.languages.map((lang) => <li key={lang.name}>{lang.name}</li>)}
         </ul>
         <img src={res.flag} alt={res.name} />
+        <Weather res={res}/>
       </div>
     ))
   }
+  //https://api.apixu.com/v1/current.json?key=f7ad4672325543cc95a61335190704&q=Paris
+
+
 
   return (
     <div>
