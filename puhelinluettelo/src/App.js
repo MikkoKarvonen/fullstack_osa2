@@ -27,9 +27,11 @@ const App = () => {
       alert(`Numero ${newNumber} on jo luettelossa.`);
     } else {
       const person = { name: newName, number: newNumber}
-      const personsNew = [...persons]
-      personsNew.push(person)
-      setPersons(personsNew)
+      axios
+        .post('http://localhost:3001/persons', person)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
     }
     setNewName('')
     setNewNumber('')
