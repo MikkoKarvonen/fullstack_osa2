@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,9 +11,8 @@ const App = () => {
   const [newSearch, setNewSearch] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
         setPersons(response.data)
       })
@@ -27,8 +26,8 @@ const App = () => {
       alert(`Numero ${newNumber} on jo luettelossa.`);
     } else {
       const person = { name: newName, number: newNumber}
-      axios
-        .post('http://localhost:3001/persons', person)
+      personService
+        .create(person)
         .then(response => {
           setPersons(persons.concat(response.data))
         })
