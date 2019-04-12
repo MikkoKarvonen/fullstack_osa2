@@ -3,7 +3,6 @@ import axios from 'axios'
 
 const Weather = (props) => {
     const [toShow, setToShow] = useState('')
-    console.log(props.res.capital);
     useEffect(() => {
         axios
             .get(`https://api.apixu.com/v1/current.json?key=f7ad4672325543cc95a61335190704&q=${props.res.capital}`)

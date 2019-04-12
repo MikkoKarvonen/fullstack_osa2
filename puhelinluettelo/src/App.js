@@ -36,6 +36,14 @@ const App = () => {
     setNewNumber('')
   }
 
+  const removePerson = (e) => {
+    personService
+      .remove(e)
+      .then(response => {
+        setPersons(persons.filter((i)=> i.id!==e))
+      })
+  }
+
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
   }
@@ -51,14 +59,14 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-      <Filter search={newSearch} change={handleSearchChange} />
+      <Filter search={newSearch} change={handleSearchChange}/>
       <h3>Lisää uusi</h3>
       
       <PersonForm 
         addPerson={addPerson} newName={newName} nameChange={handlePersonChange} newNumber={newNumber} numChange={handleNumberChange}
       />
       <h2>Numerot</h2>
-      <Persons persons={persons} search={newSearch} />
+      <Persons persons={persons} search={newSearch} remove={removePerson.bind(this)}/>
     </div>
   )
 }

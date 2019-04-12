@@ -3,7 +3,11 @@ import React from 'react'
 const Persons = (props) => {
     return (
         <div>
-            {props.persons.map((person,i) => (person.name.toLowerCase().includes(props.search.toLowerCase())) ? <p key={i}>{person.name} {person.number}</p> : '')}
+            {props.persons.map((person,i) => (
+                person.name.toLowerCase().includes(
+                    props.search.toLowerCase())) ? 
+                    <p key={person.id}>{person.name} {person.number} <button onClick={() => props.remove(person.id)}>poista</button></p> : ''
+            )}
         </div>
     )
 }
