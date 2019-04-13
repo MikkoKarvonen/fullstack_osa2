@@ -11,10 +11,15 @@ const create = newObject => {
 
 const remove = newObject => {
     return axios.delete(`${baseUrl}/${newObject}`)
-  }
+}
+
+const update = newObject => {
+    return axios.put(`${baseUrl}/${newObject.id}`, newObject)
+}
 
 export default { 
   getAll: getAll, 
   create: create,
-  remove: remove
+  remove: remove,
+  update: update
 }

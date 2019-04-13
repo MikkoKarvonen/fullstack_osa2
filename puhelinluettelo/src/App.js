@@ -21,7 +21,16 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     if (persons.some(e => e.name === newName)) {
-      alert(`Nimi ${newName} on jo luettelossa.`);
+      const updatePerson = window.confirm(`${newName} on jo luettelossa. Korvataanko vanha numero uudella?`);
+      if (updatePerson){
+        const newId = persons.find(e => e.name === newName).id
+        const person = {id: newId,  name: newName, number: newNumber}
+        personService
+        .update(person)
+        .then(response => {
+          setPersons(persons.filter((i)=> i.id!==newId).concat(response.data));
+        })
+      }
     } else if (persons.some(e => e.number === newNumber)) {
       alert(`Numero ${newNumber} on jo luettelossa.`);
     } else {
@@ -37,11 +46,14 @@ const App = () => {
   }
 
   const removePerson = (e) => {
+    const deletePerson = window.confirm(`Poistetaanko ${persons.find(p => p.id === e).name}?`);
+    if (deletePerson){
     personService
       .remove(e)
       .then(response => {
-        setPersons(persons.filter((i)=> i.id!==e))
+        setPersons(persons.filter((i)=> i.id!==e));
       })
+    }
   }
 
   const handlePersonChange = (event) => {
