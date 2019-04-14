@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import PersonForm from './components/PersonForm'
 import personService from './services/persons'
+import './App.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [message, setMessage] = useState('')
+  const [style, setStyle] = useState('')
 
   useEffect(() => {
     personService
@@ -29,6 +33,7 @@ const App = () => {
         .update(person)
         .then(response => {
           setPersons(persons.filter((i)=> i.id!==newId).concat(response.data));
+          changeMessage(`${newName} numero vaihdettiin.`, `change`);
         })
       }
     } else if (persons.some(e => e.number === newNumber)) {
@@ -39,6 +44,7 @@ const App = () => {
         .create(person)
         .then(response => {
           setPersons(persons.concat(response.data))
+          changeMessage(`${person.name} lisättiin.`, `add`);
         })
     }
     setNewName('')
@@ -46,14 +52,25 @@ const App = () => {
   }
 
   const removePerson = (e) => {
-    const deletePerson = window.confirm(`Poistetaanko ${persons.find(p => p.id === e).name}?`);
+    const personToDelete = persons.find(p => p.id === e).name
+    const deletePerson = window.confirm(`Poistetaanko ${personToDelete}?`);
     if (deletePerson){
     personService
       .remove(e)
       .then(response => {
         setPersons(persons.filter((i)=> i.id!==e));
+        changeMessage(`${personToDelete} poistettiin.`, `remove`);
       })
     }
+  }
+
+  const changeMessage = (msg, style) => {
+    setMessage(msg)
+    setStyle(style)
+    setTimeout(() => {
+      setMessage(null)
+      setStyle(null)
+    }, 5000)
   }
 
   const handlePersonChange = (event) => {
@@ -71,6 +88,7 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+      <Notification message={message} style={style}/>
       <Filter search={newSearch} change={handleSearchChange}/>
       <h3>Lisää uusi</h3>
       
