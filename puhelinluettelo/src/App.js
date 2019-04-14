@@ -61,6 +61,10 @@ const App = () => {
         setPersons(persons.filter((i)=> i.id!==e));
         changeMessage(`${personToDelete} poistettiin.`, `remove`);
       })
+      .catch(error => {
+        setPersons(persons.filter((i)=> i.id!==e));
+        changeMessage(`${personToDelete} oli jo poistettu.`, `remove`);
+      })
     }
   }
 
